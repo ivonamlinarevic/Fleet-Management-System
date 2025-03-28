@@ -10,3 +10,26 @@
   color: #0887ee;
  }
  
+ .prikazBroja{
+  border: 2px dotted goldenrod;
+  border-radius: 10px;
+  padding: 10px;
+ }
+ 
+ .prikazBroja p {
+  font-size: 2em;
+  margin: 5px;
+ }
+ 
+ .tipkaOkvir{
+  border: 2px solid salmon;
+  border-radius: 10px;
+  margin: 10px;
+ }
+ 
+ .tipkaOkvir button{
+  font-size: 24px;
+  font-weight: bold;
+  padding: 5px 15px;
+ }
+ 
