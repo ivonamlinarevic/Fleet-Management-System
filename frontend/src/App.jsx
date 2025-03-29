@@ -1,38 +1,52 @@
-import { useState } from "react";
-import axios from "axios"
+import "./App.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import Tablica from "../components/Tablica";
+import UnosForma from "../components/UnosForma";
+import Brisanje from "../components/Brisanje";
+import Promjena from "../components/Promjena";
 
 function App() {
- const [podatak, postaviPodatak] = useState({
- body: "",
- id: null,
- title: "",
- userId: null,
- });
-
-/*  function dohvatiPodatke() {
- fetch("https://jsonplaceholder.typicode.com/posts/1")
- .then(res => res.json())
- .then(data => postaviPodatak(data))
-   .catch(err => alert(err))
- }
-  */
- function dohvatiPodatke() {
-   axios.get("https://jsonplaceholder.typicode.com/posts/11")
-   .then(res => postaviPodatak(res.data))
-   .catch(err => alert(err))
-   }
+  const [rezervacije, postaviRezervacije] = useState([]);
+  const [lastId, setLastId] = useState(3);  // Pretpostavljamo da već imamo 3 rezervacije u početnom stanju
   
- return (
- <div className='App'>
- <h1>Dohvat podataka</h1>
- <button onClick={dohvatiPodatke}>Dohvati podatke</button>
- <div>
- <h3>{podatak.title}</h3>
- <p>{podatak.body}</p>
- </div>
- </div>
- );
-}
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/rezervacije/")
+      .then(res => {
+        postaviRezervacije(res.data);
+        // Ažuriraj zadnji ID na temelju podataka koje već imaš
+        if (res.data.length > 0) {
+          const maxId = Math.max(...res.data.map(item => Number(item.id)));
+          setLastId(maxId);
+        }
+      });
+  }, []);
 
+  // Funkcija za dodavanje nove rezervacije
+  const dodajRezervaciju = (novaRezervacija) => {
+    const novaRezervacijaSaId = {
+      ...novaRezervacija,
+      id: (lastId + 1).toString(),  // Generiranje id na temelju posljednjeg
+    };
+
+    // Simulacija slanja podataka (spremanje u stanje, a u stvarnoj aplikaciji možeš koristiti axios za backend)
+    postaviRezervacije([...rezervacije, novaRezervacijaSaId]);
+
+    // Ažuriraj zadnji ID za sljedeći unos
+    setLastId(lastId + 1);
+  };
+
+  return (
+    <div className="App">
+      <h2>Popis rezervacija</h2>
+      <Tablica rezervacije={rezervacije} />
+      <h2>Nova rezervacija</h2>
+      <UnosForma dodaj={dodajRezervaciju} />
+      <h2>Brisanje</h2>
+      <Brisanje promjena={postaviRezervacije} />
+    </div>
+  );
+}
 
 export default App;
