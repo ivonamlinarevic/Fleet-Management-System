@@ -5,15 +5,23 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const vehicleRoutes = require('./routes/vehicleRoutes');
 const reservationRoutes = require('./routes/reservationRoutes');
+const mongoose = require("mongoose");
 const app = express();
+const cookieParser = require("cookie-parser");
 
 require('dotenv').config();  // Ovdje učitaj .env datoteku
 
 dotenv.config();
 connectDB();
 
-app.use(cors());
+//app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',  // Zamijeni s frontend domenom
+  credentials: true
+}));
+
 app.use(express.json());
+app.use(cookieParser())
 
 // Routes
 app.use('/api/users', userRoutes);

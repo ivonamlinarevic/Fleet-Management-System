@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-// Hashiranje lozinke prije spremanja u bazu
+/* // Hashiranje lozinke prije spremanja u bazu
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
         return next();
@@ -35,6 +35,6 @@ userSchema.pre('save', async function(next) {
 // Metoda za usporedbu lozinki
 userSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
-};
+}; */
 
 module.exports = mongoose.model('User', userSchema);
