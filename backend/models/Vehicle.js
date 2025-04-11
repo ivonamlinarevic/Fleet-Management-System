@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const vehicleSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['car', 'van', 'truck'],
+        enum: ['car', 'truck', 'motorcycle'],
         required: true,
     },
-    make: {
+    maker: {
         type: String,
         required: true,
     },
@@ -28,6 +28,14 @@ const vehicleSchema = new mongoose.Schema({
         type: String,
         enum: ['available', 'reserved', 'maintenance'],
         default: 'available',
+    },
+    damageReported: {  // Polje za prijavljenu štetu
+        type: Boolean,
+        default: false,
+    },
+    damageDescription: {  // Polje za opis štete
+        type: String,
+        default: '',
     },
 });
 

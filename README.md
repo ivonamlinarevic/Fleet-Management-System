@@ -26,7 +26,6 @@ npm run start
 ### Administrator voznog parka
 
 - Pregledava i upravlja svim zahtjevima za rezervaciju (odobravanje ili odbijanje).
-- Dodjeljuje konkretno vozilo (automobil, kombi, drugo) određenom zahtjevu, ovisno o raspoloživosti.
 - Ima uvid u cjelokupni vozni park te može uređivati informacije o dostupnosti, statusu vozila i drugim relevantnim podacima.
 - Može pregledavati prijave štete, kvarova i drugih problema.
 
@@ -37,14 +36,11 @@ npm run start
 - Kreiranje zahtjeva za rezervaciju: Unos željenog vremena korištenja, svrhe putovanja i preferiranog tipa vozila.
 - Pregled rezervacija: Pregled prethodnih i aktualnih zahtjeva te njihovih statusa.
 - Otkazivanje rezervacija: Mogućnost otkazivanja dok rezervirani period još nije započeo.
-- Prijava problema/štete: Jednostavan obrazac za prijavu bilo kakvih poteškoća s vozilom.
 
 ### Za Administratore
 
 - Upravljanje zahtjevima: Odobravanje ili odbijanje rezervacija.
-- Dodjeljivanje vozila: Dodjela konkretnog vozila uzimajući u obzir raspoloživost i potrebe.
 - Upravljanje voznim parkom: Pregled, uređivanje i promjena statusa vozila (npr. označavanje vozila nedostupnim, vrijeme tehničkog pregleda, sl.).
-- Pregled prijava šteta/kvarova: Evidencija i rješavanje prijavljenih problema.
 
 ## Dodatne funkcionalnosti
 
@@ -53,3 +49,7 @@ npm run start
 - Dodatne administratorske izmjene: Omogućiti masovne promjene, dodavanje novih vozila, podešavanje podsjetnika.
 - Statusi vozila i nedostupnost: Administrativne oznake vozila koja su trenutačno nedostupna zbog servisa ili drugog razloga.
 - Podsjetnici za tehničke preglede: Notifikacije administratorima kada se bliži termin tehničkog pregleda određenog vozila.
+- Prijava problema/štete: Jednostavan obrazac za prijavu bilo kakvih poteškoća s vozilom (zaposlenik).
+- Pregled prijava šteta/kvarova: Evidencija i rješavanje prijavljenih problema (admin).
+- Dodjeljivanje vozila: Dodjela konkretnog vozila uzimajući u obzir raspoloživost i potrebe (admin).
+- Admin dodjeljuje konkretno vozilo (automobil, kombi, drugo) određenom zahtjevu, ovisno o raspoloživosti.
