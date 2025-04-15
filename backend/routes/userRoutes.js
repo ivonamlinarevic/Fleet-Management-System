@@ -18,7 +18,6 @@ const jwt = require('jsonwebtoken');
         }
     };
     
-
     const checkToken = (req, res, next) => {
         const authHeader = req.headers['authorization'];
         if (!authHeader) return res.status(403).send('Ne postoji autorizacijsko zaglavlje');
@@ -28,7 +27,7 @@ const jwt = require('jsonwebtoken');
        
         try {
         const decodedToken = jwt.verify(token, 'tajniKljuc');
-        req.user = decodedToken; //zasto req.user
+        req.user = decodedToken;
         console.log('Decoded Token:', decodedToken);
         } catch (err) {
         return res.status(401).send('Neispravni Token');
@@ -64,7 +63,23 @@ router.post('/register', async (req, res) => {
         });
 
         await user.save();
-        res.status(201).json({ message: 'Korisnik uspješno registriran' });
+        const token = jwt.sign(
+            { userId: user._id, role: user.role }, //promjena iz userRole u role
+            'tajniKljuc',
+            { expiresIn: '1h' }
+          );
+          
+          res.status(201).json({
+            message: 'Korisnik uspješno registriran',
+            token,
+            user: {
+              id: user._id,
+              name: user.name,
+              email: user.email,
+              role: user.role
+            }
+          });
+          
     } catch (error) {
         res.status(500).json({ message: 'Greška prilikom registracije', error });
     }
@@ -76,14 +91,12 @@ router.post('/login', async (req, res) => {
 
     try {
         const user = await User.findOne({ email });
-/*         if (user && await bcrypt.compare(password, user.password)){
-            res.send('Prijava uspješna');
- */        // Stvaranje login sesije ili tokena
+
         if(user && await bcrypt.compare(password, user.password)){
             const token = jwt.sign(
-                { userId: user._id, userRole: user.role }, 
+                { userId: user._id, role: user.role }, // promjena iz userRole u role
                 'tajniKljuc', 
-                { expiresIn: '1h' }); //sto je u mom kodu id korisnika
+                { expiresIn: '1h' });
             res.json({ token });
         }
         else {
@@ -113,7 +126,6 @@ router.post('/login-cookie', async (req, res) => {
     if (user && await bcrypt.compare(req.body.password, user.password)) {
     const token = jwt.sign({ userId: user.name }, 'tajniKljuc', { expiresIn: '1h' });
     
-    // Postavljamo JWT token kao cookie u odgovoru
     res.cookie('accessToken', token, {
     httpOnly: true,
     maxAge: 3600000, // 1 sat
@@ -131,7 +143,6 @@ router.post('/login-cookie', async (req, res) => {
     });
 
     router.get('/ruta-cookie', checkCookie('accessToken'), (req, res) => {
-        // Ako je prosao middleware, cookie je ispravan
         res.status(200).json({ message: 'Dozvoljen pristup podatku' });
         }); 
 

@@ -31,9 +31,20 @@ const checkRole = (role) => (req, res, next) => {
     }
 };
 
+// Dohvati sve rezervacije, samo za admina
+router.get('/', checkToken, checkRole('admin'), async (req, res) => {
+    try {
+        const reservations = await Reservation.find().populate('user vehicle');
+        res.json(reservations);
+    } catch (error) {
+        res.status(500).json({ message: 'Greška pri dohvaćanju rezervacija', error });
+    }
+});
+
 // Kreiraj novu rezervaciju: Unos željenog vremena korištenja, svrhe putovanja i preferiranog tipa vozila, ZAPOSLENIK SAMO
 router.post('/new', checkToken, checkRole('employee'), async (req, res) => {
-    const { userId, vehicleId, startDate, endDate, purpose } = req.body;
+    const { vehicleId, startDate, endDate, purpose } = req.body;
+    const userId = req.user.userId;
 
     try {
         const vehicle = await Vehicle.findById(vehicleId);
@@ -55,7 +66,6 @@ router.post('/new', checkToken, checkRole('employee'), async (req, res) => {
 
         await reservation.save();
 
-        // Postavljanje vozila na "rezervirano"
         vehicle.availabilityStatus = 'reserved';
         await vehicle.save();
 
@@ -65,40 +75,38 @@ router.post('/new', checkToken, checkRole('employee'), async (req, res) => {
     }
 });
 
-// Dohvati sve rezervacije korisnika, ZAPOSLENIK I ADMIN
-router.get('/:userId', checkToken, (req, res, next) => {
-    // Provjeravamo je li korisnik zaposlenik ili administrator
-    if (req.user.userRole === 'employee' || req.user.userRole === 'admin') {
-        next(); // Ako je korisnik zaposlenik ili admin, dopuštamo pristup
-    } else {
-        res.status(403).send('Zabranjen pristup - vaša uloga nije dopuštena za ovu akciju');
-    }
-}, async (req, res) => {
+  // Dohvaćanje svih rezervacija za korisnika s populiranim podacima o vozilu
+router.get('/:userId', checkToken, async (req, res) => {
     try {
-        const reservations = await Reservation.find({ user: req.params.userId }).populate('vehicle');
-        res.json(reservations);
-    } catch (error) {
-        res.status(500).json({ message: 'Greška pri dohvaćanju rezervacija', error });
-    }
-});
+        const reservations = await Reservation.find({ user: req.params.userId })
+            .populate({
+                path: 'vehicle',
+                select: 'maker model type year registrationNumber availabilityStatus',
+            })
+            .exec();
 
-// Otkazi rezervaciju, ZAPOSLENIK
-router.delete('/:id', checkToken, checkRole('employee'), async (req, res) => {
-    try {
-        const reservation = await Reservation.findByIdAndDelete(req.params.id);
-        if (!reservation) {
-            return res.status(404).json({ message: 'Rezervacija nije pronađena' });
+        if (!reservations || reservations.length === 0) {
+            return res.status(404).json({ message: 'Nema rezervacija za ovog korisnika.' });
         }
 
-        const vehicle = await Vehicle.findById(reservation.vehicle);
-        vehicle.availabilityStatus = 'available';
-        await vehicle.save();
-
-        res.json({ message: 'Rezervacija uspješno otkazana' });
+        res.json(reservations); // Vraćamo rezervacije s populiranim podacima o vozilu
     } catch (error) {
-        res.status(500).json({ message: 'Greška pri otkazivanju rezervacije', error });
+        console.error('Greška pri dohvaćanju rezervacija:', error);
+        res.status(500).json({ message: 'Došlo je do pogreške pri dohvaćanju rezervacija.' });
     }
 });
+
+ // Briši/otkaži rezervaciju
+router.delete('/:id', checkToken, async (req, res) => {
+    const { id } = req.params;
+    try {
+      await Reservation.findByIdAndDelete(id);
+      res.json({ message: 'Rezervacija otkazana.' });
+    } catch (err) {
+      res.status(500).json({ error: 'Greška pri otkazivanju rezervacije.' });
+    }
+  });
+  
 
 // Admin odbija ili odobrava rezervaciju
 router.put('/:id/status', checkToken, checkRole('admin'), async (req, res) => {
@@ -132,7 +140,7 @@ router.put('/:id/status', checkToken, checkRole('admin'), async (req, res) => {
 
 // Zaposlenik prijavljuje problem ili štetu na vozilu
 router.post('/:vehicleId/damage', checkToken, checkRole('employee'), async (req, res) => {
-    const { damageDescription } = req.body; // Ovdje pretpostavljamo da će zaposlenik opisati štetu
+    const { damageDescription } = req.body;
 
     if (!damageDescription) {
         return res.status(400).json({ message: 'Opis štete je obavezan' });
@@ -144,9 +152,8 @@ router.post('/:vehicleId/damage', checkToken, checkRole('employee'), async (req,
             return res.status(404).json({ message: 'Vozilo nije pronađeno' });
         }
 
-        // Ažuriramo vozilo tako da označimo da ima prijavljenu štetu
-        vehicle.damageReported = true; // Pretpostavljamo da postoji ovo polje na modelu Vehicle
-        vehicle.damageDescription = damageDescription; // Dodajemo opis štete
+        vehicle.damageReported = true;
+        vehicle.damageDescription = damageDescription;
 
         await vehicle.save();
 
@@ -199,5 +206,18 @@ router.put('/:reservationId/assign', checkToken, checkRole('admin'), async (req,
         res.status(500).json({ message: 'Greška pri dodjeli vozila', error });
     }
 });
+
+// Admin pregledava sve rezervacije na čekanju
+router.get('/pending', checkToken, checkRole('admin'), async (req, res) => {
+    try {
+        const pendingReservations = await Reservation.find({ status: 'pending' }).populate('user vehicle');
+        
+        res.json(pendingReservations);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Došlo je do pogreške pri dohvaćanju rezervacija.', error });
+    }
+});
+
 
 module.exports = router;

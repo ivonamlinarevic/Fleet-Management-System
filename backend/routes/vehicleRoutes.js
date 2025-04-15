@@ -35,7 +35,6 @@ router.get('/', async (req, res) => {
     try {
         const vehicles = await Vehicle.find();
 
-        // Provjeri je li niz vozila prazan
         if (vehicles.length === 0) {
             return res.status(404).json({ message: 'Nema unesenih vozila' });
         }
@@ -85,7 +84,6 @@ router.get('/damaged', checkToken, checkRole('admin'), async (req, res) => {
     try {
         const vehiclesWithDamage = await Vehicle.find({ damageReported: true });
 
-        // Ako nema vozila sa štetama
         if (vehiclesWithDamage.length === 0) {
             return res.status(200).json({ message: 'Nema prijavljene štete' });
         }

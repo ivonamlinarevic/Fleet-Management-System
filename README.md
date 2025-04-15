@@ -2,7 +2,7 @@
 
 Aplikacija za upravljanje voznim parkom. Sustav omogućava zaposlenicima da putem web sučelja zatraže korištenje službenih vozila za određene periode i svrhe, dok administratori voznog parka imaju uvid u sve zahtjeve, upravljaju resursima i odobravaju ili odbijaju rezervacije.
 
-U skorije vrijeme biti će dostupne osnovne funkcionalnosti, kao i dodatne.
+U skorije vrijeme biti će dostupne dodatne funkcionalnosti.
 
 ## Pokretanje aplikacije
 
@@ -34,22 +34,21 @@ npm run start
 ### Za Zaposlenike
 
 - Kreiranje zahtjeva za rezervaciju: Unos željenog vremena korištenja, svrhe putovanja i preferiranog tipa vozila.
+- Prikazi u obliku kalendara: Omogućiti lakši pregled zauzeća vozila po datumima.
+- Statusi vozila i nedostupnost: Administrativne oznake vozila koja su trenutačno nedostupna zbog servisa ili drugog razloga.
 - Pregled rezervacija: Pregled prethodnih i aktualnih zahtjeva te njihovih statusa.
 - Otkazivanje rezervacija: Mogućnost otkazivanja dok rezervirani period još nije započeo.
+- Prijava problema/štete: Jednostavan obrazac za prijavu bilo kakvih poteškoća s vozilom (zaposlenik).
 
 ### Za Administratore
 
 - Upravljanje zahtjevima: Odobravanje ili odbijanje rezervacija.
 - Upravljanje voznim parkom: Pregled, uređivanje i promjena statusa vozila (npr. označavanje vozila nedostupnim, vrijeme tehničkog pregleda, sl.).
+- Pregled prijava šteta/kvarova: Evidencija i rješavanje prijavljenih problema (admin).
 
 ## Dodatne funkcionalnosti
 
-- Prikazi u obliku kalendara: Omogućiti lakši pregled zauzeća vozila po datumima.
 - Filteri po vozilu: Omogućiti filtriranje zahtjeva i rezervacija po određenom vozilu.
-- Dodatne administratorske izmjene: Omogućiti masovne promjene, dodavanje novih vozila, podešavanje podsjetnika.
-- Statusi vozila i nedostupnost: Administrativne oznake vozila koja su trenutačno nedostupna zbog servisa ili drugog razloga.
 - Podsjetnici za tehničke preglede: Notifikacije administratorima kada se bliži termin tehničkog pregleda određenog vozila.
-- Prijava problema/štete: Jednostavan obrazac za prijavu bilo kakvih poteškoća s vozilom (zaposlenik).
-- Pregled prijava šteta/kvarova: Evidencija i rješavanje prijavljenih problema (admin).
-- Dodjeljivanje vozila: Dodjela konkretnog vozila uzimajući u obzir raspoloživost i potrebe (admin).
+- Dodatne administratorske izmjene: Omogućiti podešavanje podsjetnika.
 - Admin dodjeljuje konkretno vozilo (automobil, kombi, drugo) određenom zahtjevu, ovisno o raspoloživosti.

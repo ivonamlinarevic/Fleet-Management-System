@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/api'; // Ovdje importaj tvoju login funkciju
+import { useUser } from '../context/UserContext';
 
 const Login = () => {
-  const navigate = useNavigate();  // Definiraj useNavigate za preusmjerenje
+  const navigate = useNavigate();
+  const { loginUser } = useUser(); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  // Funkcija za obradu prijave
   const handleLogin = async () => {
     try {
       const response = await loginUser(email, password);
-      localStorage.setItem('token', response.token); // Pohrani token u localStorage
-      navigate('/dashboard'); // Preusmjerenje nakon uspješne prijave
+      localStorage.setItem('token', response.token); 
+      navigate('/');
     } catch (error) {
+      setError('Neispravni podaci za prijavu'); 
       console.error('Greška pri prijavi:', error);
     }
   };
@@ -38,6 +40,10 @@ const Login = () => {
         />
       </div>
       <button onClick={handleLogin}>Login</button>
+      
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <button onClick={() => navigate('/users/register')}>Registriraj se</button>
     </div>
   );
 };

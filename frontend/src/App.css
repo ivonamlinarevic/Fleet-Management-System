@@ -4,3 +4,33 @@
   padding: 2rem;
   text-align: center;
 }
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+nav a.active {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}

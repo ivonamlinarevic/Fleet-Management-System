@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Definicija modela vozila
 const vehicleSchema = new mongoose.Schema({
     type: {
         type: String,
@@ -29,11 +28,11 @@ const vehicleSchema = new mongoose.Schema({
         enum: ['available', 'reserved', 'maintenance'],
         default: 'available',
     },
-    damageReported: {  // Polje za prijavljenu štetu
+    damageReported: {  
         type: Boolean,
         default: false,
     },
-    damageDescription: {  // Polje za opis štete
+    damageDescription: { 
         type: String,
         default: '',
     },

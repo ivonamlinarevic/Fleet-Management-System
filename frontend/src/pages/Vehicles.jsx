@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { getVehicles } from '../services/api';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const Vehicles = () => {
   const [vehicles, setVehicles] = useState([]);
   const [error, setError] = useState('');
+  const [role, setRole] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (!token) {
       setError('Nema prijave');
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      setRole(decoded.role);
+    } catch (err) {
+      setError('Neispravan token');
       return;
     }
 
@@ -35,8 +47,21 @@ const Vehicles = () => {
         ) : (
           vehicles.map((vehicle) => (
             <div key={vehicle._id}>
-              <h3>{vehicle.type} - {vehicle.make} {vehicle.model}</h3>
-              <p>{vehicle.registrationNumber}</p>
+              <h3>{vehicle.maker} {vehicle.model} ({vehicle.type})</h3>
+              <p>Godište: {vehicle.year}</p>
+              <p>Registracijska oznaka: {vehicle.registrationNumber}</p>
+              <p>Dostupnost: {vehicle.availabilityStatus}</p>
+
+              {role === 'admin' && (
+                <Link to={`/vehicles/${vehicle._id}`}>
+                  <button>Uredi - admin</button>
+                </Link>
+              )}
+              {role === 'employee' && (
+                <button onClick={() => navigate(`/reservations/${vehicle._id}/damage`)}>
+                  Prijavi kvar - zaposlenik
+                </button>
+              )}
             </div>
           ))
         )}

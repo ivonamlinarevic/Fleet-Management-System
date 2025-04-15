@@ -1,15 +1,12 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-// Kreiranje UserContext
-const UserContext = createContext();
+export const UserContext = createContext();
 
-// Provider komponenta koja omogućuje dijeljenje stanja korisnika
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Provjera tokena i dohvat podataka o korisniku kad se aplikacija učita
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -20,7 +17,7 @@ export const UserProvider = ({ children }) => {
               Authorization: `Bearer ${token}`,
             },
           });
-          setUser(response.data); // Spremi podatke o korisniku
+          setUser(response.data);
         }
       } catch (error) {
         console.error('Greška pri dohvaćanju podataka o korisniku:', error);
@@ -32,16 +29,23 @@ export const UserProvider = ({ children }) => {
     checkUser();
   }, []);
 
-  // Funkcija za login
-  const loginUser = (userData) => {
-    setUser(userData);
-    localStorage.setItem('token', userData.token); // Pohranjivanje tokena u localStorage
+  const loginUser = async (email, password) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const { token, user } = response.data;
+
+      setUser(user);
+      localStorage.setItem('token', token);
+
+      return response.data;
+    } catch (error) {
+      throw new Error('Greška pri prijavi');
+    }
   };
 
-  // Funkcija za logout
   const logoutUser = () => {
     setUser(null);
-    localStorage.removeItem('token'); // Uklanjanje tokena iz localStorage
+    localStorage.removeItem('token')
   };
 
   return (
@@ -51,4 +55,6 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-export default UserContext;
+export const useUser = () => {
+  return useContext(UserContext);
+};
