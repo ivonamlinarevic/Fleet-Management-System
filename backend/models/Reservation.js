@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Definicija modela rezervacije
 const reservationSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +26,6 @@ const reservationSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'approved', 'rejected', 'cancelled'],
-        // enumeration - skup unaprijed definiranih vrijednosti
         default: 'pending',
     },
 });
