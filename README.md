@@ -49,6 +49,6 @@ npm run start
 ## Dodatne funkcionalnosti
 
 - Filteri po vozilu: Omogućiti filtriranje zahtjeva i rezervacija po određenom vozilu.
-- Podsjetnici za tehničke preglede: Notifikacije administratorima kada se bliži termin tehničkog pregleda određenog vozila.
+- Podsjetnici za tehničke preglede: Notifikacije (administratorima) kada se bliži termin tehničkog pregleda određenog vozila.
 - Dodatne administratorske izmjene: Omogućiti podešavanje podsjetnika.
-- Admin dodjeljuje konkretno vozilo (automobil, kombi, drugo) određenom zahtjevu, ovisno o raspoloživosti.
+- Admin briše štetu kada je riješena
