@@ -17,7 +17,11 @@ import AddVehicle from './pages/AddVehicle';
 import { useUser } from './context/UserContext';
 
 const Header = () => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return <header><div className="user-email">Loading...</div></header>;
+  }
 
   return (
     <header>
@@ -31,6 +35,7 @@ const Header = () => {
     </header>
   );
 };
+
 
 const App = () => {
   return (

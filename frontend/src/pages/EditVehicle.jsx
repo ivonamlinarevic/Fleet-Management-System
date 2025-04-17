@@ -18,16 +18,22 @@ const EditVehicle = () => {
 
   useEffect(() => {
     const fetchVehicleData = async () => {
+      const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`http://localhost:5000/api/vehicles/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/vehicles/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setVehicleData(response.data);
       } catch (err) {
-        setError('Greška pri dohvaćanju podataka vozila');
+        setError('Greška pri dohvaćanju podataka vozila!!');
       }
     };
-
+  
     fetchVehicleData();
   }, [id]);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

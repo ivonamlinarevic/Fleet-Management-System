@@ -97,7 +97,17 @@ router.post('/login', async (req, res) => {
                 { userId: user._id, role: user.role }, // promjena iz userRole u role
                 'tajniKljuc', 
                 { expiresIn: '1h' });
-            res.json({ token });
+           // res.json({ token });
+           res.json({
+            token,
+            user: {
+              id: user._id,
+              name: user.name,
+              email: user.email,
+              role: user.role
+            }
+          });
+          
         }
         else {
             res.status(401).send('Neispravni podaci za prijavu');

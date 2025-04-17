@@ -23,10 +23,10 @@ const checkToken = (req, res, next) => {
 
 // Provjera uloge
 const checkRole = (role) => (req, res, next) => {
-    if (req.user && req.user.userRole === role) {
+    if (req.user && req.user.role === role) { // od userRole = role
         next();
     } else {
-        res.status(403).send(`Zabranjen pristup - vaša uloga je ${req.user ? req.user.userRole : 'nepoznata'}`);
+        res.status(403).send(`Zabranjen pristup - vaša uloga je ${req.user ? req.user.role : 'nepoznata'}`);
     }
 };
 
@@ -44,6 +44,35 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Greška pri dohvaćanju vozila', error });
     }
 });
+
+// Admin pregledava sve prijavljene kvarove i štetu na vozilima
+router.get('/damaged', checkToken, checkRole('admin'), async (req, res) => {
+    try {
+        const vehiclesWithDamage = await Vehicle.find({ damageReported: true });
+
+        if (vehiclesWithDamage.length === 0) {
+            return res.status(200).json({ message: 'Nema prijavljene štete' });
+        }
+
+        res.json(vehiclesWithDamage);
+    } catch (error) {
+        res.status(500).json({ message: 'Greška pri dohvaćanju vozila s prijavljenom štetom', error });
+    }
+});
+
+// Dohvati jedno vozilo po ID-u (za uređivanje)
+router.get('/:id', checkToken, async (req, res) => {
+    try {
+        const vehicle = await Vehicle.findById(req.params.id);
+        if (!vehicle) {
+            return res.status(404).json({ message: 'Vozilo nije pronađeno' });
+        }
+        res.json(vehicle);
+    } catch (error) {
+        res.status(500).json({ message: 'Greška pri dohvaćanju vozila!!', error });
+    }
+});
+
 
 // Dodaj novo vozilo (samo admin može dodati)
 router.post('/add', checkToken, checkRole('admin'), async (req, res) => {
@@ -79,19 +108,6 @@ router.put('/:id', checkToken, checkRole('admin'), async (req, res) => {
     }
 });
 
-// Admin pregledava sve prijavljene kvarove i štetu na vozilima
-router.get('/damaged', checkToken, checkRole('admin'), async (req, res) => {
-    try {
-        const vehiclesWithDamage = await Vehicle.find({ damageReported: true });
 
-        if (vehiclesWithDamage.length === 0) {
-            return res.status(200).json({ message: 'Nema prijavljene štete' });
-        }
-
-        res.json(vehiclesWithDamage);
-    } catch (error) {
-        res.status(500).json({ message: 'Greška pri dohvaćanju vozila s prijavljenom štetom', error });
-    }
-});
 
 module.exports = router;

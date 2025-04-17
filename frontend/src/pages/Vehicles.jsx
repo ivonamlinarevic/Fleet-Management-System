@@ -54,12 +54,12 @@ const Vehicles = () => {
 
               {role === 'admin' && (
                 <Link to={`/vehicles/${vehicle._id}`}>
-                  <button>Uredi - admin</button>
+                  <button>Uredi</button>
                 </Link>
               )}
               {role === 'employee' && (
                 <button onClick={() => navigate(`/reservations/${vehicle._id}/damage`)}>
-                  Prijavi kvar - zaposlenik
+                  Prijavi kvar
                 </button>
               )}
             </div>

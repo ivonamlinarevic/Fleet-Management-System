@@ -20,7 +20,9 @@ export const UserProvider = ({ children }) => {
           setUser(response.data);
         }
       } catch (error) {
-        console.error('Greška pri dohvaćanju podataka o korisniku:', error);
+        console.error('Greška pri dohvaćanju korisnika:', error);
+        localStorage.removeItem('token'); // ako je token nevažeći
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -30,31 +32,25 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   const loginUser = async (email, password) => {
-    try {
-      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      const { token, user } = response.data;
+    const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+    const { token, user } = response.data;
 
-      setUser(user);
-      localStorage.setItem('token', token);
+    localStorage.setItem('token', token);
+    setUser(user);
 
-      return response.data;
-    } catch (error) {
-      throw new Error('Greška pri prijavi');
-    }
+    return response.data;
   };
 
   const logoutUser = () => {
+    localStorage.removeItem('token');
     setUser(null);
-    localStorage.removeItem('token')
   };
 
   return (
-    <UserContext.Provider value={{ user, loading, loginUser, logoutUser }}>
+    <UserContext.Provider value={{ user, setUser, loading, loginUser, logoutUser }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-export const useUser = () => {
-  return useContext(UserContext);
-};
+export const useUser = () => useContext(UserContext);

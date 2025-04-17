@@ -11,6 +11,7 @@ const AdminReservations = () => {
     fetchReservations();
   }, []);
 
+  
   const fetchReservations = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/reservations', {
@@ -61,7 +62,7 @@ const AdminReservations = () => {
         <tbody>
           {reservations.map((res) => (
             <tr key={res._id} className="text-center">
-              <td className="border px-4 py-2">{res.user?.username || 'Nepoznato'}</td>
+              <td className="border px-4 py-2">{res.user?.name || 'Nepoznato'}</td>
               <td className="border px-4 py-2">
                 {res.vehicle?.maker} {res.vehicle?.model}
               </td>

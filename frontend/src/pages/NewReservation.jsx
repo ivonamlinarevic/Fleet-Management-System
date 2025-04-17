@@ -28,8 +28,30 @@ const NewReservation = () => {
     fetchVehicles();
   }, []);
 
+  const getCurrentDateTime = () => {
+    const currentDate = new Date();
+    const isoString = currentDate.toISOString();
+    return isoString.slice(0, 16); // Uzimamo samo do minuta
+  };
+
+  // Provjera da krajnji datum nije prije početnog
+  const handleEndDateChange = (e) => {
+    const selectedEndDate = e.target.value;
+    if (selectedEndDate < startDate) {
+      setError('Krajnji datum ne smije biti prije početnog datuma.');
+    } else {
+      setError('');
+      setEndDate(selectedEndDate);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (new Date(endDate) < new Date(startDate)) {
+      setError('Krajnji datum ne smije biti prije početnog datuma.');
+      return;
+    }
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -72,11 +94,14 @@ const NewReservation = () => {
             required
           >
             <option value="">Odaberite vozilo</option>
-            {vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle._id}>
-                {vehicle.model} ({vehicle.availabilityStatus})
-              </option>
-            ))}
+            {vehicles
+            .filter((vehicle) => vehicle.availabilityStatus !== 'reserved')
+            .map((vehicle) => (
+            <option key={vehicle._id} value={vehicle._id}>
+              {vehicle.model} ({vehicle.availabilityStatus})
+            </option>
+))}
+
           </select>
         </div>
 
@@ -88,6 +113,7 @@ const NewReservation = () => {
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             required
+            min={getCurrentDateTime()}
           />
         </div>
 
@@ -97,8 +123,9 @@ const NewReservation = () => {
             type="datetime-local"
             id="endDate"
             value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+            onChange={handleEndDateChange} // Koristimo novu funkciju za promjenu krajnjeg datuma
             required
+            min={getCurrentDateTime()}
           />
         </div>
 

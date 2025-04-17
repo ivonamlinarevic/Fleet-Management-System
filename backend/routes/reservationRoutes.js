@@ -24,10 +24,10 @@ const checkToken = (req, res, next) => {
 
 // Provjera uloge
 const checkRole = (role) => (req, res, next) => {
-    if (req.user && req.user.userRole === role) {
+    if (req.user && req.user.role === role) { //userRole
         next();
     } else {
-        res.status(403).send(`Zabranjen pristup - vaša uloga je ${req.user ? req.user.userRole : 'nepoznata'}`);
+        res.status(403).send(`Zabranjen pristup - vaša uloga je ${req.user ? req.user.role : 'nepoznata'}`);
     }
 };
 
