@@ -21,7 +21,6 @@ npm run start
 - Ima uvid u svoje prethodne i aktivne rezervacije (i u kojem su statusu).
 - Može otkazati svoju rezervaciju sve dok ne započne rezervirani period korištenja.
 - Ima mogućnost prijave problema ili štete na vozilu. (Prijava se vrši putem posebne forme/post zahtjeva.)
-- Nakon početka rezerviranog termina, zaposlenik više ne može mijenjati/uređivati rezervaciju.
 
 ### Administrator voznog parka
 
@@ -52,3 +51,4 @@ npm run start
 - Podsjetnici za tehničke preglede: Notifikacije (administratorima) kada se bliži termin tehničkog pregleda određenog vozila.
 - Dodatne administratorske izmjene: Omogućiti podešavanje podsjetnika.
 - Admin briše štetu kada je riješena
+- Nakon početka rezerviranog termina, zaposlenik više ne može mijenjati/uređivati rezervaciju.
