@@ -13,6 +13,16 @@ cd backend
 npm run start
 ```
 
+### Podaci za prijavu kao admin
+
+Email: admin@example.com
+Password: admin
+
+### Podaci za prijavu kao zaposlenik
+
+Email: employee@example.com
+Password: employee
+
 ## Uloge u sustavu
 
 ### Zaposlenik
