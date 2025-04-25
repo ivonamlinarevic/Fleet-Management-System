@@ -72,7 +72,7 @@ const NewReservation = () => {
       alert(response.data.message);
     } catch (err) {
       console.error(err);
-      setError('Greška 403! Samo zaposlenici mogu prijaviti kvar.');
+      setError('Greška 403!');
     }
   };
 
@@ -84,9 +84,9 @@ const NewReservation = () => {
     <div>
       <h1>Kreiraj novu rezervaciju</h1>
       {error && <div style={{ color: 'red' }}>{error}</div>}
-      <form onSubmit={handleSubmit}>
+      <form className='actions' onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="vehicle">Vozilo:</label>
+          <label htmlFor="vehicle">Vozilo: </label>
           <select
             id="vehicle"
             value={vehicleId}
@@ -106,7 +106,7 @@ const NewReservation = () => {
         </div>
 
         <div>
-          <label htmlFor="startDate">Početni datum:</label>
+          <label htmlFor="startDate">Početni datum: </label>
           <input
             type="datetime-local"
             id="startDate"
@@ -118,7 +118,7 @@ const NewReservation = () => {
         </div>
 
         <div>
-          <label htmlFor="endDate">Krajnji datum:</label>
+          <label htmlFor="endDate">Krajnji datum: </label>
           <input
             type="datetime-local"
             id="endDate"
@@ -130,7 +130,7 @@ const NewReservation = () => {
         </div>
 
         <div>
-          <label htmlFor="purpose">Svrha rezervacije:</label>
+          <label htmlFor="purpose">Svrha rezervacije: </label>
           <input
             type="text"
             id="purpose"

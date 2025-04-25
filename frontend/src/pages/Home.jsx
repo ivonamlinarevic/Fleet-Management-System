@@ -29,7 +29,7 @@ const Home = () => {
       navigate(`/reservations/${userId}`);
     }
   };
-
+/* 
   const handleAuthClick = () => {
     if (user) {
       logoutUser();
@@ -37,7 +37,7 @@ const Home = () => {
     } else {
       navigate('/login');
     }
-  };
+  }; */
 
   if (!user && localStorage.getItem('token')) {
     return <p>Učitavanje...</p>;
@@ -45,14 +45,14 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <button onClick={handleAuthClick}>
+{/*       <button onClick={handleAuthClick}>
         {user ? 'Odjava' : 'Prijava'}
-      </button>
+      </button> */}
 
       <h1>Dobro došli u sustav za upravljanje voznim parkom</h1>
       <p>Ovdje možete upravljati vozilima, rezervacijama, i pregledavati status vaših zahtjeva.</p>
 
-      <div className="home-actions">
+      <div className="actions">
         <button onClick={() => window.location.href = '/vehicles'}>
           Pregledaj vozila
         </button>

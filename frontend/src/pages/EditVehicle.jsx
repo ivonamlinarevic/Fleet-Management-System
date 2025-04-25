@@ -86,10 +86,10 @@ const EditVehicle = () => {
 
       {success && <p className="success">{success}</p>}
       {error && <p className="error">{error}</p>}
-
+ 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Tip:</label>
+          <label>Tip: </label>
           <input
             type="text"
             name="type"
@@ -99,7 +99,7 @@ const EditVehicle = () => {
         </div>
 
         <div>
-          <label>Proizvođač:</label>
+          <label>Proizvođač: </label>
           <input
             type="text"
             name="maker"
@@ -109,7 +109,7 @@ const EditVehicle = () => {
         </div>
 
         <div>
-          <label>Model:</label>
+          <label>Model: </label>
           <input
             type="text"
             name="model"
@@ -119,7 +119,7 @@ const EditVehicle = () => {
         </div>
 
         <div>
-          <label>Godina:</label>
+          <label>Godina: </label>
           <input
             type="number"
             name="year"
@@ -129,7 +129,7 @@ const EditVehicle = () => {
         </div>
 
         <div>
-          <label>Registracijska oznaka:</label>
+          <label>Registracijska oznaka: </label>
           <input
             type="text"
             name="registrationNumber"
@@ -137,8 +137,9 @@ const EditVehicle = () => {
             onChange={handleInputChange}
           />
         </div>
-
-        <button type="submit">Spremi promjene</button>
+        <div className='actions'>
+          <button type="submit">Spremi promjene</button>
+        </div>
       </form>
     </div>
   );

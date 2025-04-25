@@ -11,7 +11,6 @@ const AdminReservations = () => {
     fetchReservations();
   }, []);
 
-  
   const fetchReservations = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/reservations', {
@@ -44,43 +43,42 @@ const AdminReservations = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Pregled svih rezervacija</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <table className="min-w-full border-collapse border border-gray-300">
+    <div>
+      <h1>Pregled svih rezervacija</h1>
+      <div className="reports">
+      {error && <p>{error}</p>}
+      <table>
         <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-4 py-2">Korisnik</th>
-            <th className="border px-4 py-2">Vozilo</th>
-            <th className="border px-4 py-2">Datum početka</th>
-            <th className="border px-4 py-2">Datum kraja</th>
-            <th className="border px-4 py-2">Svrha</th>
-            <th className="border px-4 py-2">Status</th>
-            <th className="border px-4 py-2">Akcije</th>
+          <tr>
+            <th>Korisnik</th>
+            <th>Vozilo</th>
+            <th>Datum početka</th>
+            <th>Datum kraja</th>
+            <th>Svrha</th>
+            <th>Status</th>
+            <th>Akcije</th>
           </tr>
         </thead>
         <tbody>
           {reservations.map((res) => (
-            <tr key={res._id} className="text-center">
-              <td className="border px-4 py-2">{res.user?.name || 'Nepoznato'}</td>
-              <td className="border px-4 py-2">
+            <tr key={res._id}>
+              <td>{res.user?.name || 'Nepoznato'}</td>
+              <td>
                 {res.vehicle?.maker} {res.vehicle?.model}
               </td>
-              <td className="border px-4 py-2">{new Date(res.startDate).toLocaleDateString()}</td>
-              <td className="border px-4 py-2">{new Date(res.endDate).toLocaleDateString()}</td>
-              <td className="border px-4 py-2">{res.purpose}</td>
-              <td className="border px-4 py-2">{res.status}</td>
-              <td className="border px-4 py-2 space-x-2">
+              <td>{new Date(res.startDate).toLocaleDateString()}</td>
+              <td>{new Date(res.endDate).toLocaleDateString()}</td>
+              <td>{res.purpose}</td>
+              <td>{res.status}</td>
+              <td className='actions'>
                 <button
                   onClick={() => updateStatus(res._id, 'approved')}
-                  className="bg-green-500 text-white px-2 py-1 rounded"
                 >
                   Odobri
                 </button>
                 <button
                   onClick={() => updateStatus(res._id, 'rejected')}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
+                  >
                   Odbij
                 </button>
               </td>
@@ -88,6 +86,7 @@ const AdminReservations = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

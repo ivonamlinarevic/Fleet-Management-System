@@ -39,14 +39,14 @@ const Vehicles = () => {
 
   return (
     <div>
-      <h2>Vozila</h2>
+      <h1>Vozila</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div>
+      <div >
         {vehicles.length === 0 ? (
           <p>Nema dostupnih vozila</p>
         ) : (
           vehicles.map((vehicle) => (
-            <div key={vehicle._id}>
+            <div key={vehicle._id} className="actions">
               <h3>{vehicle.maker} {vehicle.model} ({vehicle.type})</h3>
               <p>Godište: {vehicle.year}</p>
               <p>Registracijska oznaka: {vehicle.registrationNumber}</p>

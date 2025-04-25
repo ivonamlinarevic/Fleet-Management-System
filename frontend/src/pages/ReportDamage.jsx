@@ -37,11 +37,11 @@ const ReportDamage = () => {
     <div>
       <h2>Prijavi kvar vozila</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="description">Opis kvara:</label>
+      <form className='actions' onSubmit={handleSubmit}>
+        <label htmlFor="description">Opis kvara: </label>
         <textarea
           id="description"
-          rows="5"
+          rows="2"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required

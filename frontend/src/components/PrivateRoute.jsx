@@ -6,7 +6,7 @@ const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(UserContext);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loader">Loading...</div>;
   }
 
   if (!user) {

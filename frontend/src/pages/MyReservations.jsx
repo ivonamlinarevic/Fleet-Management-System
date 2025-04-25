@@ -57,8 +57,8 @@ const MyReservations = () => {
         <ul>
 
 {reservations.map((reservation) => (
-    <div key={reservation._id}>
-        <h3>Vozilo: {reservation.vehicle.maker} {reservation.vehicle.model}</h3>
+    <div key={reservation._id} className='actions'>
+        <h3>{reservation.vehicle.maker} {reservation.vehicle.model}</h3>
         <p>Tip: {reservation.vehicle.type}</p>
         <p>Registracija: {reservation.vehicle.registrationNumber}</p>
         <p>Status: {reservation.status}</p>

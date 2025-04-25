@@ -58,9 +58,9 @@ const AddVehicle = () => {
       {success && <p className="success">{success}</p>}
       {error && <p className="error">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="actions">
         <div>
-          <label>Tip:</label>
+          <label>Tip: </label>
           <input
             type="text"
             name="type"
@@ -71,7 +71,7 @@ const AddVehicle = () => {
         </div>
 
         <div>
-          <label>Proizvođač:</label>
+          <label>Proizvođač: </label>
           <input
             type="text"
             name="maker"
@@ -82,7 +82,7 @@ const AddVehicle = () => {
         </div>
 
         <div>
-          <label>Model:</label>
+          <label>Model: </label>
           <input
             type="text"
             name="model"
@@ -93,7 +93,7 @@ const AddVehicle = () => {
         </div>
 
         <div>
-          <label>Godina:</label>
+          <label>Godina: </label>
           <input
             type="number"
             name="year"
@@ -104,7 +104,7 @@ const AddVehicle = () => {
         </div>
 
         <div>
-          <label>Registracijska oznaka:</label>
+          <label>Registracijska oznaka: </label>
           <input
             type="text"
             name="registrationNumber"

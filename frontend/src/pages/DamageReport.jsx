@@ -36,11 +36,11 @@ const DamageReport = () => {
   }
 
   return (
-    <div className="damage-report">
+    <div>
       <h1>Vozila sa prijavljenom štetom</h1>
       {damagedVehicles.length === 0 ? (
         <p>Trenutno nema vozila sa prijavljenom štetom.</p>
-      ) : (
+      ) : ( <div className='reports'> 
         <table>
           <thead>
             <tr>
@@ -67,6 +67,7 @@ const DamageReport = () => {
             ))}
           </tbody>
         </table>
+       </div>
       )}
     </div>
   );
